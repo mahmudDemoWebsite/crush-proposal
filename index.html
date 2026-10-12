@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff3f5" />
+  <meta name="description" content="A little romantic question, made with courage and a whole lot of heart." />
+  <title>A Little Question for You 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="sparkle sparkle-one" aria-hidden="true">✦</div>
+  <div class="sparkle sparkle-two" aria-hidden="true">✧</div>
+  <div id="heart-layer" class="heart-layer" aria-hidden="true"></div>
+
+  <main class="page-shell">
+    <div class="top-note"><span class="top-note-heart">♥</span> a tiny website for someone special</div>
+
+    <section id="proposal-screen" class="love-card" aria-labelledby="proposal-title">
+      <div class="illustration" aria-hidden="true">
+        <span class="orbit orbit-one"></span>
+        <span class="orbit orbit-two"></span>
+        <span class="mini-heart mini-heart-one">♥</span>
+        <span class="mini-heart mini-heart-two">♥</span>
+        <div class="heart-glow"></div>
+        <svg class="main-heart" viewBox="0 0 120 110" role="img" aria-label="A pink heart illustration">
+          <defs>
+            <linearGradient id="heartGradient" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff9eae" />
+              <stop offset="100%" stop-color="#e84d72" />
+            </linearGradient>
+          </defs>
+          <path d="M60 101 C50 91 9 64 9 34 C9 14 33 4 49 18 C54 22 58 27 60 31 C62 27 66 22 71 18 C87 4 111 14 111 34 C111 64 70 91 60 101Z" fill="url(#heartGradient)" />
+          <path d="M29 28 C32 20 41 19 47 24" fill="none" stroke="#fff5f6" stroke-linecap="round" stroke-width="4" opacity=".82" />
+        </svg>
+        <span class="tiny-sparkle">✦</span>
+      </div>
+
+      <p class="eyebrow"><span></span> from my heart to you</p>
+      <h1 id="proposal-title">I have a tiny<br /><em>question</em> for you...</h1>
+      <p class="intro-copy">Out of all the people in this world, you make my days feel a little more special. So, here goes my brave little question.</p>
+      <div class="question-box">
+        <span class="question-mark" aria-hidden="true">♡</span>
+        <p>Will you go on a date with me?</p>
+      </div>
+
+      <div id="button-zone" class="button-zone">
+        <div class="button-row">
+          <button id="yes-button" class="button button-yes" type="button">Yes, absolutely! <span aria-hidden="true">♥</span></button>
+          <button id="no-button" class="button button-no" type="button" aria-label="No (this button is a little shy)">No <span aria-hidden="true">🙈</span></button>
+        </div>
+        <p id="playful-message" class="playful-message" aria-live="polite">Choose honestly... but that “No” looks a little shy. ♡</p>
+      </div>
+      <div class="card-bottom"><span>✧</span> no pressure, just a little courage <span>✧</span></div>
+    </section>
+
+    <section id="date-screen" class="love-card date-card" aria-labelledby="date-title" hidden>
+      <div class="success-stamp" aria-hidden="true">♥</div>
+      <p class="eyebrow"><span></span> wait... is this real life?</p>
+      <h1 id="date-title">You just made me<br /><em>so happy!</em></h1>
+      <p class="intro-copy date-intro">Okay, now the fun part. Let's plan a little moment that's just for us. You pick what sounds lovely. 💗</p>
+
+      <form id="date-form" class="date-form">
+        <div class="field-grid">
+          <label class="field-label" for="date-input">Our date <span>♡</span>
+            <input id="date-input" name="date" type="date" required />
+          </label>
+          <label class="field-label" for="time-input">Perfect time <span>♡</span>
+            <select id="time-input" name="time" required>
+              <option value="11:00 AM">11:00 AM</option>
+              <option value="1:00 PM">1:00 PM</option>
+              <option value="3:30 PM" selected>3:30 PM</option>
+              <option value="5:00 PM">5:00 PM</option>
+              <option value="6:30 PM">6:30 PM</option>
+              <option value="7:30 PM">7:30 PM</option>
+            </select>
+          </label>
+        </div>
+
+        <fieldset class="activity-fieldset">
+          <legend>What kind of date are you dreaming of?</legend>
+          <div class="activity-grid">
+            <label class="activity-option">
+              <input type="radio" name="activity" value="Coffee & conversations ☕" checked />
+              <span class="activity-copy"><span class="activity-emoji">☕</span><span><strong>Coffee & talks</strong><small>Slow sips, long chats</small></span><span class="activity-check">✓</span></span>
+            </label>
+            <label class="activity-option">
+              <input type="radio" name="activity" value="A sunset walk 🌅" />
+              <span class="activity-copy"><span class="activity-emoji">🌅</span><span><strong>Sunset walk</strong><small>Golden hour together</small></span><span class="activity-check">✓</span></span>
+            </label>
+            <label class="activity-option">
+              <input type="radio" name="activity" value="Street food & stories 🍜" />
+              <span class="activity-copy"><span class="activity-emoji">🍜</span><span><strong>Food & stories</strong><small>Little bites, big laughs</small></span><span class="activity-check">✓</span></span>
+            </label>
+            <label class="activity-option">
+              <input type="radio" name="activity" value="A bookstore date 📚" />
+              <span class="activity-copy"><span class="activity-emoji">📚</span><span><strong>Bookstore date</strong><small>Find our next favourite</small></span><span class="activity-check">✓</span></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <label class="field-label note-label" for="little-note">A little note (optional)
+          <input id="little-note" name="note" type="text" maxlength="100" placeholder="Anything you'd love us to do..." />
+        </label>
+
+        <button class="button button-yes confirm-button" type="submit">Let's make it a date <span aria-hidden="true">💌</span></button>
+      </form>
+      <div class="card-bottom"><span>✧</span> this is getting cute <span>✧</span></div>
+    </section>
+
+    <section id="confirmed-screen" class="love-card confirmed-card" aria-labelledby="confirmed-title" hidden>
+      <div class="confirmed-heart" aria-hidden="true">💖</div>
+      <p class="eyebrow"><span></span> it's a date!</p>
+      <h1 id="confirmed-title">Our little plan<br /><em>is made.</em></h1>
+      <p class="intro-copy">I’m officially smiling at my screen. Here’s what we picked:</p>
+      <div class="date-summary">
+        <div class="summary-row"><span class="summary-icon">📅</span><span><small>THE DAY</small><strong id="summary-date">Your selected date</strong></span></div>
+        <div class="summary-row"><span class="summary-icon">🕰️</span><span><small>THE TIME</small><strong id="summary-time">Your selected time</strong></span></div>
+        <div class="summary-row"><span class="summary-icon">✨</span><span><small>THE VIBE</small><strong id="summary-activity">Your chosen date idea</strong></span></div>
+        <p id="summary-note" class="summary-note" hidden></p>
+      </div>
+      <p class="final-note">One date, two smiles, and hopefully a memory we’ll keep. <span aria-hidden="true">♡</span></p>
+      <div class="final-actions">
+        <button id="send-plan-button" class="button button-yes confirm-button" type="button">Send our date plan <span aria-hidden="true">↗</span></button>
+        <button id="back-button" class="button button-quiet" type="button">Change the plan</button>
+      </div>
+      <p id="share-message" class="share-message" aria-live="polite"></p>
+      <div class="card-bottom"><span>✧</span> made with courage & a lot of heart <span>✧</span></div>
+    </section>
+
+    <footer class="site-footer">made with <span aria-label="love">♥</span> & a very nervous smile</footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
