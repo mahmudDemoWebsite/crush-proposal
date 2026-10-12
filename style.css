@@ -94,7 +94,7 @@ h1 em { color: var(--pink-deep); font-weight: 500; }
 .button-yes span { font-size: 14px; }
 .button-no { position: relative; z-index: 3; color: #9b6676; border: 1px solid #efd7de; background: #fffafa; box-shadow: 0 4px 10px rgba(109, 50, 72, .04); }
 .button-no:hover { background: #fff3f5; }
-.button-no.is-running { position: absolute; transition: left .16s ease-out, top .16s ease-out, transform .16s ease-out; }
+.button-no.is-running { position: absolute; transition: none !important; will-change: left, top; }
 .playful-message { min-height: 20px; margin: 12px 0 0; color: #bc8293; font-size: 11px; line-height: 1.6; }
 .card-bottom { display: flex; align-items: center; justify-content: center; gap: 9px; margin-top: 9px; color: #b994a0; font-size: 9px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; }
 .card-bottom span { color: #e6a0b1; font-size: 12px; }

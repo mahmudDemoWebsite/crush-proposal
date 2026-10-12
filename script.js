@@ -19,6 +19,7 @@ const shareMessage = document.querySelector("#share-message");
 const toast = document.querySelector("#toast");
 let toastTimer;
 let noEscapeCount = 0;
+let lastNoEscapeAt = 0;
 let selectedPlan = null;
 
 function localDateString(date) {
@@ -50,23 +51,27 @@ function showScreen(screenToShow) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function moveNoButton() {
+function moveNoButton(event) {
   if (!buttonZone || noButton.hidden) return;
 
   noButton.classList.add("is-running");
   noButton.setAttribute("aria-label", "No (try again, this button is escaping)");
+
   const zoneRect = buttonZone.getBoundingClientRect();
   const buttonRect = noButton.getBoundingClientRect();
   const yesRect = yesButton.getBoundingClientRect();
-  const maxX = Math.max(0, zoneRect.width - buttonRect.width - 8);
-  const maxY = Math.max(0, buttonZone.clientHeight - buttonRect.height - 8);
-  let x = 0;
-  let y = 0;
+  const maxX = Math.max(4, buttonZone.clientWidth - buttonRect.width - 8);
+  const maxY = Math.max(4, buttonZone.clientHeight - buttonRect.height - 8);
+  const pointerX = Number.isFinite(event?.clientX) ? event.clientX : null;
+  const pointerY = Number.isFinite(event?.clientY) ? event.clientY : null;
+  let x = 4;
+  let y = 4;
   let safeSpotFound = false;
 
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  // Pick a spot away from both the Yes button and the pointer, so it cannot be clicked mid-escape.
+  for (let attempt = 0; attempt < 120; attempt += 1) {
     x = 4 + Math.random() * Math.max(0, maxX - 4);
-    y = 5 + Math.random() * Math.max(0, maxY - 5);
+    y = 4 + Math.random() * Math.max(0, maxY - 4);
     const candidate = {
       left: zoneRect.left + x,
       right: zoneRect.left + x + buttonRect.width,
@@ -74,23 +79,48 @@ function moveNoButton() {
       bottom: zoneRect.top + y + buttonRect.height,
     };
     const overlapsYes = !(
-      candidate.right < yesRect.left - 9 ||
-      candidate.left > yesRect.right + 9 ||
-      candidate.bottom < yesRect.top - 9 ||
-      candidate.top > yesRect.bottom + 9
+      candidate.right < yesRect.left - 18 ||
+      candidate.left > yesRect.right + 18 ||
+      candidate.bottom < yesRect.top - 18 ||
+      candidate.top > yesRect.bottom + 18
     );
-    if (!overlapsYes) {
+    const tooCloseToPointer = pointerX !== null && pointerY !== null && !(
+      candidate.right < pointerX - 65 ||
+      candidate.left > pointerX + 65 ||
+      candidate.bottom < pointerY - 55 ||
+      candidate.top > pointerY + 55
+    );
+
+    if (!overlapsYes && !tooCloseToPointer) {
       safeSpotFound = true;
       break;
     }
   }
 
-  // On very small screens, staying inside the play area matters more than avoiding every overlap.
   if (!safeSpotFound) {
-    x = Math.max(4, Math.min(maxX, zoneRect.width - buttonRect.width - 4));
-    y = maxY > 4 ? maxY : 4;
+    // Fallback to the corner furthest from the pointer and the Yes button.
+    const corners = [
+      { x: 4, y: 4 },
+      { x: maxX, y: 4 },
+      { x: 4, y: maxY },
+      { x: maxX, y: maxY },
+    ];
+    const px = pointerX ?? (zoneRect.left + zoneRect.width / 2);
+    const py = pointerY ?? (zoneRect.top + zoneRect.height / 2);
+    corners.sort((a, b) => {
+      const score = (point) => {
+        const cx = zoneRect.left + point.x + buttonRect.width / 2;
+        const cy = zoneRect.top + point.y + buttonRect.height / 2;
+        const pointerDistance = Math.hypot(cx - px, cy - py);
+        const yesDistance = Math.hypot(cx - (yesRect.left + yesRect.width / 2), cy - (yesRect.top + yesRect.height / 2));
+        return pointerDistance + yesDistance * 0.35;
+      };
+      return score(b) - score(a);
+    });
+    ({ x, y } = corners[0]);
   }
 
+  // Update immediately. A slow CSS transition can let the click land before the button escapes.
   noButton.style.left = `${x}px`;
   noButton.style.top = `${y}px`;
   noEscapeCount += 1;
@@ -103,13 +133,12 @@ function moveNoButton() {
   ];
   playfulMessage.textContent = messages[(noEscapeCount - 1) % messages.length];
 }
-
 function escapeNo(event) {
   if (event) {
     event.preventDefault();
     event.stopPropagation();
   }
-  moveNoButton();
+  moveNoButton(event);
 }
 
 function handleYes() {
@@ -234,11 +263,26 @@ function startAmbientHearts() {
 
 yesButton.addEventListener("click", handleYes);
 noButton.addEventListener("pointerenter", (event) => {
-  if (event.pointerType !== "touch") moveNoButton();
+  if (event.pointerType !== "touch") escapeNo(event);
 });
+noButton.addEventListener("pointerdown", escapeNo);
 noButton.addEventListener("touchstart", escapeNo, { passive: false });
 noButton.addEventListener("click", escapeNo);
-noButton.addEventListener("focus", moveNoButton);
+noButton.addEventListener("focus", () => moveNoButton());
+
+// Make it dodge before the cursor even reaches it, with a short cooldown to avoid flicker.
+buttonZone.addEventListener("pointermove", (event) => {
+  if (event.pointerType === "touch") return;
+  const now = performance.now();
+  if (now - lastNoEscapeAt < 110) return;
+  const rect = noButton.getBoundingClientRect();
+  const nearButton = event.clientX >= rect.left - 58 && event.clientX <= rect.right + 58 &&
+    event.clientY >= rect.top - 48 && event.clientY <= rect.bottom + 48;
+  if (nearButton) {
+    lastNoEscapeAt = now;
+    moveNoButton(event);
+  }
+});
 dateForm.addEventListener("submit", confirmPlan);
 sendPlanButton.addEventListener("click", sendPlan);
 backButton.addEventListener("click", () => {
